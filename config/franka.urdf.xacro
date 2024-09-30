@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
 
   <!-- Define arm: -->
   <xacro:arg name="arm_id" default="fr3" />
+  <xacro:arg name="ee_id" default="franka_hand" />
 
   <!-- Load arm: -->
   <xacro:include filename="$(find franka_description)/robots/common/franka_robot.xacro" />
