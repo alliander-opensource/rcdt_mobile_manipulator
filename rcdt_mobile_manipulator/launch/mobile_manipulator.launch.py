@@ -23,6 +23,21 @@ gazebo_robot = IncludeLaunchDescription(
     get_file_path("rcdt_utilities", ["launch"], "gazebo_robot.launch.py")
 )
 
+fr3_gripper = Node(
+    package="rcdt_franka",
+    executable="simulated_gripper_node.py",
+    output="screen",
+)
+
+controllers_config = get_file_path(
+    "rcdt_franka", ["config"], "simulation_controllers.yaml"
+)
+gripper_action_controller = Node(
+    package="controller_manager",
+    executable="spawner",
+    arguments=["gripper_action_controller", "-p", controllers_config],
+)
+
 fr3_arm_controller_config = get_file_path(
     "rcdt_franka", ["config"], "simulation_controllers.yaml"
 )
@@ -48,9 +63,10 @@ joint_state_broadcaster = Node(
 )
 
 moveit = IncludeLaunchDescription(
-    get_file_path("rcdt_franka", ["launch"], "moveit.launch.py"),
+    get_file_path("rcdt_utilities", ["launch"], "moveit.launch.py"),
     launch_arguments={
         "moveit": "servo",
+        "moveit_config_package": "rcdt_mobile_manipulator_moveit_config",
     }.items(),
 )
 
@@ -81,6 +97,8 @@ def generate_launch_description() -> None:
             gazebo_robot,
             joint_state_broadcaster,
             fr3_arm_controller,
+            fr3_gripper,
+            gripper_action_controller,
             moveit,
             rviz,
         ]

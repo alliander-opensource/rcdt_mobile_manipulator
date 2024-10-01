@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: rcdt_mobile_manipulator
+    relative_path: config/mobile_manipulator.urdf.xacro
+  srdf:
+    relative_path: config/mobile_manipulator.srdf
+  package_settings:
+    author_name: RCDT
+    author_email: researchcenter@alliander.com
+    generated_timestamp: 1727776970
