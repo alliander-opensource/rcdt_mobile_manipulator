@@ -43,7 +43,7 @@ franka_controllers = IncludeLaunchDescription(
 
 # TODO: Move panther controllers to panther repo.
 panther_controllers = IncludeLaunchDescription(
-    get_file_path("rcdt_mobile_manipulator", ["launch"], "controllers.launch.py")
+    get_file_path("rcdt_panther", ["launch"], "controllers.launch.py")
 )
 
 rviz = IncludeLaunchDescription(
