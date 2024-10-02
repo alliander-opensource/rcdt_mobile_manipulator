@@ -59,25 +59,6 @@ moveit = IncludeLaunchDescription(
     }.items(),
 )
 
-# get controller parameters:
-controllers_config = get_file_path(
-    "rcdt_mobile_manipulator", ["config"], "ros_controller.yaml"
-)
-
-# diff drive controller:
-diff_drive_controller = Node(
-    package="controller_manager",
-    executable="spawner",
-    name="diff_drive_controller",
-    arguments=[
-        "diff_drive_controller",
-        "-t",
-        "diff_drive_controller/DiffDriveController",
-        "-p",
-        controllers_config,
-    ],
-)
-
 
 def generate_launch_description() -> None:
     return LaunchDescription(
