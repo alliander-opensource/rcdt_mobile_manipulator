@@ -48,7 +48,7 @@ panther_controllers = IncludeLaunchDescription(
 
 rviz = IncludeLaunchDescription(
     get_file_path("rcdt_utilities", ["launch"], "rviz.launch.py"),
-    launch_arguments={"rviz_frame": "base_link"}.items(),
+    launch_arguments={"rviz_frame": "odom"}.items(),
 )
 
 moveit = IncludeLaunchDescription(
