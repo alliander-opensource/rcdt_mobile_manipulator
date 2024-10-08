@@ -8,11 +8,17 @@ project(rcdt_mobile_manipulator)
 
 find_package(ament_cmake REQUIRED rcdt_franka)
 
-# Install project launch files
+# Install project files
 install(
   DIRECTORY
-    launch config
+    launch config urdf
   DESTINATION share/${PROJECT_NAME}
+)
+
+# Install nodes
+install(PROGRAMS
+  nodes/joy_topic_manager.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)

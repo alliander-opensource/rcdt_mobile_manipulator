@@ -8,7 +8,7 @@ from launch_ros.actions import Node
 from rcdt_utilities.launch_utils import get_file_path, get_robot_description
 
 xacro_file = get_file_path(
-    "rcdt_mobile_manipulator", ["config"], "mobile_manipulator.urdf.xacro"
+    "rcdt_mobile_manipulator", ["urdf"], "mobile_manipulator.urdf.xacro"
 )
 robot_description = get_robot_description(xacro_file)
 
@@ -41,7 +41,6 @@ franka_controllers = IncludeLaunchDescription(
     }.items(),
 )
 
-# TODO: Move panther controllers to panther repo.
 panther_controllers = IncludeLaunchDescription(
     get_file_path("rcdt_panther", ["launch"], "controllers.launch.py")
 )
@@ -59,6 +58,39 @@ moveit = IncludeLaunchDescription(
     }.items(),
 )
 
+joy = Node(
+    package="joy",
+    executable="game_controller_node",
+    parameters=[
+        {"sticky_buttons": True},
+    ],
+)
+
+joy_topic_manager = Node(
+    package="rcdt_mobile_manipulator",
+    executable="joy_topic_manager.py",
+)
+
+joy_to_twist_franka = Node(
+    package="rcdt_utilities",
+    executable="joy_to_twist_node.py",
+    parameters=[
+        {"sub_topic": "/franka/joy"},
+        {"pub_topic": "/servo_node/delta_twist_cmds"},
+        {"config_pkg": "rcdt_franka"},
+    ],
+)
+
+joy_to_twist_panther = Node(
+    package="rcdt_utilities",
+    executable="joy_to_twist_node.py",
+    parameters=[
+        {"sub_topic": "/panther/joy"},
+        {"pub_topic": "/diff_drive_controller/cmd_vel"},
+        {"config_pkg": "rcdt_panther"},
+    ],
+)
+
 
 def generate_launch_description() -> None:
     return LaunchDescription(
@@ -70,5 +102,9 @@ def generate_launch_description() -> None:
             panther_controllers,
             rviz,
             moveit,
+            joy,
+            joy_topic_manager,
+            joy_to_twist_franka,
+            joy_to_twist_panther,
         ]
     )

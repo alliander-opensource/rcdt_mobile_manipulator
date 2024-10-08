@@ -1,0 +1,9 @@
+franka:
+  topic: "/franka/joy"
+  button: 0
+panther:
+  topic: "/panther/joy"
+  button: 1
+none:
+  topic: ""
+  button: 2
