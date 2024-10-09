@@ -91,6 +91,12 @@ joy_to_twist_panther = Node(
     ],
 )
 
+joy_to_gripper = Node(
+    package="rcdt_franka",
+    executable="joy_to_gripper_node.py",
+    parameters=[{"sub_topic": "/franka/joy"}],
+)
+
 
 def generate_launch_description() -> None:
     return LaunchDescription(
@@ -106,5 +112,6 @@ def generate_launch_description() -> None:
             joy_topic_manager,
             joy_to_twist_franka,
             joy_to_twist_panther,
+            joy_to_gripper,
         ]
     )
