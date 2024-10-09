@@ -6,12 +6,13 @@ cmake_minimum_required(VERSION 3.5)
 
 project(rcdt_mobile_manipulator)
 
-find_package(ament_cmake REQUIRED rcdt_franka)
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 
 # Install project files
 install(
   DIRECTORY
-    launch config urdf
+  launch config urdf
   DESTINATION share/${PROJECT_NAME}
 )
 
