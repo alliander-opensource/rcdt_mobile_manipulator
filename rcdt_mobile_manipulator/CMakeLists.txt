@@ -18,7 +18,7 @@ install(
 
 # Install nodes
 install(PROGRAMS
-  nodes/joy_topic_manager.py
+  nodes/joy_topic_manager_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

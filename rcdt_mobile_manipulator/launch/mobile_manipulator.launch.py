@@ -68,7 +68,7 @@ joy = Node(
 
 joy_topic_manager = Node(
     package="rcdt_mobile_manipulator",
-    executable="joy_topic_manager.py",
+    executable="joy_topic_manager_node.py",
 )
 
 joy_to_twist_franka = Node(
