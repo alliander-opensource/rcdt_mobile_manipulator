@@ -14,13 +14,8 @@ SPDX-License-Identifier: Apache-2.0
   <maintainer email="researchcenter@alliander.com">RCDT</maintainer>
   <license>Apache 2.0</license>
 
-  <depend>rcdt_utilities</depend>
-  <depend>ros_gz_sim</depend>
-  <depend>robot_state_publisher</depend>
-  <depend>controller_manager</depend>
-  <depend>ros_gz_bridge</depend>
-
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
 
   <test_depend>ament_lint_auto</test_depend>
 

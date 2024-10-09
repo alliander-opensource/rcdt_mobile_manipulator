@@ -4,7 +4,7 @@ SPDX-FileCopyrightText: Alliander N. V.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# RCDT Robotics
+# RCDT Mobile Manipulator
 
 This repository contains files and configuration that allow for the intregration of Husarion Panther and Franka Emika Research 3. It is intended to be used alongside [other RCDT robotics projects](<Link to RCDT robotics repo>).
 

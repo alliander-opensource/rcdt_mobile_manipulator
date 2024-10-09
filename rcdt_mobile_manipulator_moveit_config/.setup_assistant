@@ -5,7 +5,7 @@
 moveit_setup_assistant_config:
   urdf:
     package: rcdt_mobile_manipulator
-    relative_path: config/mobile_manipulator.urdf.xacro
+    relative_path: urdf/mobile_manipulator.urdf.xacro
   srdf:
     relative_path: config/mobile_manipulator.srdf
   package_settings:
