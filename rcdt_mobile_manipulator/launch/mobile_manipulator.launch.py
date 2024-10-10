@@ -74,6 +74,7 @@ joy_topic_manager = Node(
 joy_to_twist_franka = Node(
     package="rcdt_utilities",
     executable="joy_to_twist_node.py",
+    namespace="franka",
     parameters=[
         {"sub_topic": "/franka/joy"},
         {"pub_topic": "/servo_node/delta_twist_cmds"},
@@ -84,6 +85,7 @@ joy_to_twist_franka = Node(
 joy_to_twist_panther = Node(
     package="rcdt_utilities",
     executable="joy_to_twist_node.py",
+    namespace="panther",
     parameters=[
         {"sub_topic": "/panther/joy"},
         {"pub_topic": "/diff_drive_controller/cmd_vel"},
