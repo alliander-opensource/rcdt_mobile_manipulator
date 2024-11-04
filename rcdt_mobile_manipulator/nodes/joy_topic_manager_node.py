@@ -8,7 +8,7 @@ from typing import List
 import rclpy
 from rclpy.node import Node, Publisher
 from sensor_msgs.msg import Joy
-from rcdt_utilities_py.launch_utils import get_yaml, get_file_path
+from rcdt_utilities.launch_utils import get_yaml, get_file_path
 
 
 class JoyTopicManager(Node):
