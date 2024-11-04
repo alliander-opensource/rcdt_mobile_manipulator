@@ -26,6 +26,13 @@ SPDX-License-Identifier: Apache-2.0
         <joint name="fr3_joint7"/>
         <joint name="fr3_joint8"/>
     </group>
+    <group name="franka_hand">
+        <link name="fr3_hand"/>
+        <link name="fr3_leftfinger"/>
+        <link name="fr3_rightfinger"/>
+    </group>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="franka_hand" parent_link="fr3_link8" group="franka_hand"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="body_link" link2="fl_wheel_link" reason="Adjacent"/>
     <disable_collisions link1="body_link" link2="fr3_link0" reason="Adjacent"/>
