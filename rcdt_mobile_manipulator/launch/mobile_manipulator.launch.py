@@ -12,11 +12,14 @@ from rcdt_utilities.launch_utils import (
     LaunchArgument,
 )
 
-rviz_arg = LaunchArgument("rviz", False, [True, False])
-moveit_arg = LaunchArgument("moveit", "off", ["classic", "servo", "off"])
+moveit_mode_arg = LaunchArgument("moveit", "off", ["node", "rviz", "servo", "off"])
+use_rviz_arg = LaunchArgument("rviz", False, [True, False])
 
 
 def launch_setup(context: LaunchContext) -> None:
+    moveit_mode = moveit_mode_arg.value(context)
+    use_rviz = use_rviz_arg.value(context)
+
     xacro_file = get_file_path(
         "rcdt_mobile_manipulator", ["urdf"], "mobile_manipulator.urdf.xacro"
     )
@@ -30,6 +33,13 @@ def launch_setup(context: LaunchContext) -> None:
 
     robot = IncludeLaunchDescription(
         get_file_path("rcdt_utilities", ["launch"], "gazebo_robot.launch.py")
+    )
+
+    static_transform_publisher = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        name="static_tf_world",
+        arguments=["--frame-id", "world", "--child-frame-id", "odom"],
     )
 
     joint_state_broadcaster = Node(
@@ -55,15 +65,12 @@ def launch_setup(context: LaunchContext) -> None:
         get_file_path("rcdt_panther", ["launch"], "controllers.launch.py")
     )
 
+    rviz_display_config = get_file_path("rcdt_utilities", ["rviz"], "markers.rviz")
     rviz = IncludeLaunchDescription(
         get_file_path("rcdt_utilities", ["launch"], "rviz.launch.py"),
-        launch_arguments={
-            "rviz_frame": "odom",
-            "rviz_load_moveit": str(moveit_arg.value(context) == "classic"),
-            "rviz_load_moveit_robot": "fr3",
-            "rviz_load_moveit_package": "rcdt_mobile_manipulator_moveit_config",
-        }.items(),
+        launch_arguments={"rviz_display_config": rviz_display_config}.items(),
     )
+    load_rviz = use_rviz and moveit_mode != "rviz"
 
     moveit = IncludeLaunchDescription(
         get_file_path("rcdt_utilities", ["launch"], "moveit.launch.py"),
@@ -119,14 +126,15 @@ def launch_setup(context: LaunchContext) -> None:
         SetParameter(name="use_sim_time", value=True),
         robot_state_publisher,
         robot,
+        static_transform_publisher,
         joint_state_broadcaster,
         franka_controllers,
         panther_controllers,
-        rviz if rviz_arg.value(context) else skip,
-        moveit if moveit_arg.value(context) != "off" else skip,
+        rviz if load_rviz else skip,
+        moveit if moveit_mode != "off" else skip,
         joy,
         joy_topic_manager,
-        joy_to_twist_franka if moveit_arg.value(context) == "servo" else skip,
+        joy_to_twist_franka if moveit_mode == "servo" else skip,
         joy_to_twist_panther,
         joy_to_gripper,
     ]
@@ -135,8 +143,8 @@ def launch_setup(context: LaunchContext) -> None:
 def generate_launch_description() -> LaunchDescription:
     return LaunchDescription(
         [
-            rviz_arg.declaration,
-            moveit_arg.declaration,
+            use_rviz_arg.declaration,
+            moveit_mode_arg.declaration,
             OpaqueFunction(function=launch_setup),
         ]
     )
